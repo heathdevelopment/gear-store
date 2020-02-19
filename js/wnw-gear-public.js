@@ -21,15 +21,16 @@ jQuery( function($) {
 					content += '<div class="wnw-gear-store-item-holder grid-item-store">';
 						content += '<div class="grid-item-row">';
 							content += '<div class="grid-item-details">';
+								content += '<div class="grid-top-details">';
 								content += '<h3 class="wnw-gear-title">'+ decoded_response[i]['title'] +'</h3>';
 								content += '<h4 class="wnw-gear-sub-title">'+ decoded_response[i]['sub_title'] +'</h4>';
 
 								if( decoded_response[i]['dollar_price'] && decoded_response[i]['points_value'] ) {
-									content += '<p class="gear-price-text">'+ decoded_response[i]['dollar_price'] +' -or- '+ decoded_response[i]['points_value'] +' Points</p>';
+									content += '<p class="gear-price-text">$'+ decoded_response[i]['dollar_price'] +' -or- '+ decoded_response[i]['points_value'] +' Points</p>';
 								} else {
-									content += '<p class="gear-price-text">'+ decoded_response[i]['dollar_price']+'</p>';
+									content += '<p class="gear-price-text">$'+ decoded_response[i]['dollar_price']+'</p>';
 								}
-								content += '<p>';
+								content += '<p class="gear-select-boxs">';
 								if( decoded_response[i]['sizes'].length > 0 ) {
 									
 										content += '<select id = "wnw-gear-item-sizes">';
@@ -55,9 +56,10 @@ jQuery( function($) {
 									content += '</select>';
 
 								content +='</p>';
-
-								content += '<a class="wnw-ad-to-cart" href="javascript:void(0);"><p>Add to Cart</p></a>';
+								content += '</div>';
+								content += '<a class="wnw-ad-to-cart" href="javascript:void(0);"><p class="gear-cart-button">Add to Cart</p></a>';
 							content += '</div>';
+
 							content += '<div class="wnw-gear-product-image">';
 								content += '<img src= "'+ decoded_response[i]['product_image_url']+'">';
 							content += '</div>';

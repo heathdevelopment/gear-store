@@ -41,7 +41,7 @@
 	width: 100%;	
     background-color: #c7c6c6;
     border: 2px solid #888585;
-    padding-left: 40px;
+    padding-left: 30px;
 }
 .cart-button {
 	width: 80%;
@@ -59,6 +59,27 @@
 	width: 345px;
 	padding-top: 40px;
 }
+.grid-top-details {
+	min-height: 147px;
+}
+.gear-select-boxs {
+	text-align: center;
+	margin-left: -22px;
+}
+.gear-cart-button {
+	background-color: black;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 269px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-weight: 900;
+    color: #fbf5f5;
+}
+#wnw-gear-item-quantity {
+	margin-bottom: 4px;
+}
 .wnw-gear-sub-title {
 	min-height: 15px;
 }
@@ -70,7 +91,8 @@
 	display: inline-flex;
 }
 .wnw-gear-title {
-	font-size: 21px !important;
+	font-weight: 600;
+	font-size: 20px !important;
 	margin-top: 0px !important;
 }
 .wnw-gear-store {
@@ -83,11 +105,8 @@
 	padding-left: 0px !important;
 	max-width: 250px;
 }
-.wnw-gear-title {
-	font-weight: 600;
-}
 #wnw-gear-item-quantity, #wnw-gear-item-sizes {
-	width: 80px;
+	width: 90px;
 }
 
 .wnw-gear-store {
