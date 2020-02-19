@@ -1,0 +1,128 @@
+/*gray #abacad*/
+.wnw-gear-store-top {
+	border-bottom: 6px solid #abacad;
+}
+.wnw-gear-text {
+     margin-top: 120px;
+    margin-bottom: 8px;
+}
+.wnw-gear-text img {
+	width: 68%;
+}
+.wnw-gear-logo {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.wnw-gear-actions {
+	padding-left: 0px !important;
+    padding-right: 0px !important;
+    height: 100%;
+    width: 33% !important;
+    margin-left: -9px;
+    background: lightgray;
+    height: auto;
+    margin-top: -30px;
+}
+
+.sign-in-button {
+	width: 80%;
+    background-color: black;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    color: white;
+    font-weight: 700;
+}
+.wnw-gear-store-item-holder {
+	width: 100%;	
+    background-color: #c7c6c6;
+    border: 2px solid #888585;
+    padding-left: 40px;
+}
+.cart-button {
+	width: 80%;
+    background-color: black;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -8px;
+    color: white;
+    font-weight: 700;
+}
+.grid-item-details {
+	width: 345px;
+	padding-top: 40px;
+}
+.wnw-gear-sub-title {
+	min-height: 15px;
+}
+.gear-price-text {
+	font-weight: 600;
+	font-size: 2rem;
+}
+.grid-item-row {
+	display: inline-flex;
+}
+.wnw-gear-title {
+	font-size: 21px !important;
+	margin-top: 0px !important;
+}
+.wnw-gear-store {
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.wnw-gear-product-image {
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	max-width: 250px;
+}
+.wnw-gear-title {
+	font-weight: 600;
+}
+#wnw-gear-item-quantity, #wnw-gear-item-sizes {
+	width: 80px;
+}
+
+.wnw-gear-store {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+.grid-container-store {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 40px 40px;
+
+}
+
+.grid-item {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.create-account-button {
+	text-align: center;
+    font-weight: 400;
+    margin-top: 10px;
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+}
+.wnw-gear-coming-soon {
+	text-align: center;
+    font-weight: 400;
+    font-size: 4rem;
+}
+
+.wnw-gear-action-text {
+	text-align: center;
+    font-size: 1.5rem;
+    margin-top: 8px;
+}
