@@ -2,7 +2,7 @@
  
 /*
 Plugin Name: Where And When - Gear Store
-Description: enables store front for the ambassadors section of whereandwhen.
+Description: enables store front for the ambassadors section of whereandwhen. Requires: When and Where - Subscribe with Authorize.net and s2Member Framework.
 Author: Matthew Heath 
 Version: 1.0
 Author URI: https://github.com/heathdevelopment
@@ -34,6 +34,44 @@ function create_gear_product_post_type() {
 	);
 }
 add_action( 'init', 'create_gear_product_post_type');
+
+function create_gear_member_cart_post_type() {
+	$args = array(
+		'labels' => array(
+			'name' => 'Gear Member Carts',
+			'singular_name' => 'Gear Member Cart'
+		),
+		'public' => true,
+		'has_archive' => false,
+		'supports' => array('title')
+	);
+
+	register_post_type('wnw-gear-cart', $args);
+
+}
+add_action('init', 'create_gear_member_cart_post_type');
+
+//add custom role for gear store
+function wnw_custom_role_gear_store() {
+	add_role('wnw_gear_store_member', 'Gear Store Member', 'access_s2member_gear_store');
+}
+add_action('init', 'wnw_custom_role_gear_store');
+
+//gear store member
+function create_gear_store_member_post_type() {
+	$args = array(
+			'labels' => array(
+				'name' => 'Store Members',
+				'singular_name' => 'Store Member'
+			),
+			'public' => true,
+			'has_archive' => false,
+			'supports' => array('title')
+	);
+	register_post_type('wnw-gear-member', $args);
+}
+
+add_action('init', 'create_gear_store_member_post_type');
 
 //add custom image for products admin
 add_filter('manage_wnw-product_columns', 'add_img_column');
