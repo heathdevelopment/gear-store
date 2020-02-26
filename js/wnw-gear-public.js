@@ -1,5 +1,238 @@
 jQuery( function($) {
-	$(document).ready( function() {
+	$(window).ready( function() {
+		var global_user_logged_in = false;
+		var global_user_id = 0;
+
+		function check_user_gear_member() {
+
+			var check_user = {
+				'action': 'check_valid_user'
+			}
+
+			$.ajax({
+				data: check_user,
+				url: ajax_url,
+				type: 'get',
+				success: function(response) {
+
+					var decoded_response = JSON.parse(response);
+
+					if (decoded_response['code'] == "1") {
+						console.log('user logged in for gear store');
+						global_user_logged_in = true;
+						global_user_id = decoded_response['id'];
+					} else {
+						global_user_logged_in = false;
+					}
+					console.log(decoded_response['code']);
+				}, error: function(error) {
+
+				}
+			});
+		}
+
+		check_user_gear_member();
+
+	
+
+		//handle add to cart button
+		$('#wnw-store').on('click', '[id^=wnw-gear-item-]', function(e) {
+
+			console.log('clicked fired');
+			console.log('Globel user logged in.' + global_user_logged_in);
+			if(global_user_logged_in) {
+				//add item to the cart
+
+				//Does this product have a size?
+				var data_id = $(this).attr('data-id');
+
+				console.log($(this).parent().siblings().find('#wnw-gear-item-sizes-'+data_id).length);
+
+				if($(this).parent().siblings().find('#wnw-gear-item-sizes-'+data_id).length) {
+					//product has a size make sure the customer selected one.
+
+					var choosen_size = $(this).parent().siblings().find('#wnw-gear-item-sizes-'+data_id).val();
+					
+
+					if(choosen_size == "") {
+
+						console.log('Choose size empty');
+						$('.wnw-ad-text-size-'+data_id).show();
+
+						$('#wnw-gear-item-sizes-'+data_id).on('change', function() {
+							$('.wnw-ad-text-size-'+data_id).hide();
+						});
+
+					} else {
+						//product includes a price, check for quantity
+						if($(this).parent().siblings().find('#wnw-gear-item-quantity-'+data_id).length) {
+							//product has quantity option, make sure its has one
+
+							var choosen_quantity = $(this).parent().siblings().find('#wnw-gear-item-quantity-'+data_id).val();
+						
+
+							if(choosen_quantity == "") {
+								//must choose a quanitity
+								$('.wnw-ad-text-quantity-'+data_id).show();
+
+								$('#wnw-gear-item-quantity-'+data_id).on('change', function() {
+									console.log('change found.');
+									$('.wnw-ad-text-quantity-'+data_id).hide();
+								});
+
+							} else {
+								//size and quantity included
+								 wnw_add_product_to_cart( data_id, global_user_id, choosen_quantity, choosen_size).done( function(response) {
+
+								 	var decoded_response = JSON.parse(response);
+									var cart_id = decoded_response['cart_id'];
+
+									if( cart_id != -1 ) {
+										console.log('refreshing car count');
+										console.log('cart id' + cart_id);
+										wnw_refresh_cart_count( cart_id );
+									} else {
+										console.log('Product being added: cart id' + cart_id);
+										alert('Item cannot be added, contact support.');
+									}
+								});
+								
+							}
+						}
+					}
+
+
+				} else {
+					//product doesn't contain a size option
+					//product includes a price, check for quantity
+					console.log('No size found.');
+					console.log($(this).parent().siblings().find('#wnw-gear-item-quantity-'+data_id).length);
+						if($(this).parent().siblings().find('#wnw-gear-item-quantity-'+data_id).length) {
+							//product has quantity option, make sure its has one
+
+							var choosen_quantity = $(this).parent().siblings().find('#wnw-gear-item-quantity-'+data_id).val();
+						
+
+							if(choosen_quantity == "") {
+								//must choose a quanitity
+								$('.wnw-ad-text-quantity-'+data_id).show();
+
+								$('#wnw-gear-item-quantity-'+data_id).on('change', function() {
+									console.log('change found.');
+									$('.wnw-ad-text-quantity-'+data_id).hide();
+								});
+
+							} else {
+								//no size and quantity included
+								 wnw_add_product_to_cart( data_id, global_user_id, choosen_quantity, 0).done( function(response) {
+
+								 	var decoded_response = JSON.parse(response);
+									var cart_id = decoded_response['cart_id'];
+
+									if( cart_id != -1 ) {
+										console.log('refreshing car count');
+										console.log('cart id' + cart_id);
+										wnw_refresh_cart_count( cart_id );
+									} else {
+										console.log('Product being added: cart id' + cart_id);
+										alert('Item cannot be added, contact support.');
+									}
+								});
+							
+							}
+						}
+				}
+
+				//accepts product id
+				
+				//update the count in the store
+				//wnw_refresh_store_count();
+			} else {
+				//reveal div that user must be logged in
+				console.log('user not logged in click');
+				var data_id = $(this).attr('data-id');
+				$('.wnw-ad-text-login-'+data_id).show('slow', 'swing');
+			}
+
+		});
+
+		//add product to cart
+		function wnw_add_product_to_cart( data_id, global_user_id, quantity, size ) {
+
+			console.log($('#wnw-gear-item-'+data_id+' .gear-cart-button').text());
+			$('#wnw-gear-item-'+data_id+' .gear-cart-button').text('');
+			$('#wnw-gear-item-'+data_id).find('.gear-cart-button').addClass('wait');
+
+			$('#preloader-3-'+data_id).show();
+
+			var data = {
+				action: 'wnw_add_product',
+				product_id: data_id,
+				gear_member_id: global_user_id,
+				quantity: quantity,
+				size: size
+			}
+
+			return $.ajax({
+				url: ajax_url,
+				data: data,
+				type: 'post',
+				success: function( response ){
+
+					$('#preloader-3-'+data_id).hide();
+					$('#wnw-gear-item-'+data_id+' .gear-cart-button').text('Add to Cart');
+					$('#wnw-gear-item-'+data_id).find('.gear-cart-button').removeClass('wait');
+				},
+				failure: function(){
+
+				}
+			});
+
+			
+		}
+
+		//refresh store count update
+		function wnw_refresh_cart_count( cart_id ) {
+
+			var data = {
+				action: 'wnw_get_cart_count',
+				cart_id: cart_id
+			}
+
+			$.ajax({
+				data: data,
+				url: ajax_url,
+				type: 'get',
+				success: function(response) {
+					var decoded_response = JSON.parse(response);
+					console.log(response);
+					console.log('decoded cart count returned: ' +decoded_response['cart_count']);
+					wnw_update_ui_store_count( decoded_response['cart_count'] );
+				}, failure: function(error) {
+					alert(error);
+				}
+			});
+	
+		}
+
+		//update UI for store count
+		function wnw_update_ui_store_count( current_count ) {
+
+			if( current_count >= 1) {
+				$('.wnw-cart-count').text( current_count );
+				//show the count if it hasn't been displayed yet
+				$('.wnw-cart-count').show();
+			} else {
+				//hide blip if empty
+				$('.wnw-cart-count').hide();
+			}
+		
+		}
+	
+
+
+
+
 
 		console.log('made it in');
 
@@ -32,16 +265,14 @@ jQuery( function($) {
 								}
 								content += '<p class="gear-select-boxs">';
 								if( decoded_response[i]['sizes'].length > 0 ) {
-									
-										content += '<select id = "wnw-gear-item-sizes">';
-											content += '<option value="">Size</option>';
-											decoded_response[i]['sizes'].forEach(function(element) {
-												content += '<option value="'+element+'">'+element+'</option>';
-											});										
-										content += '</select>';
-									
+									content += '<select id = "wnw-gear-item-sizes-'+decoded_response[i]['post_id']+'">';
+										content += '<option value="">Size</option>';
+										decoded_response[i]['sizes'].forEach(function(element) {
+											content += '<option value="'+element+'">'+element+'</option>';
+										});										
+									content += '</select>';									
 								}
-									content += '<select id= "wnw-gear-item-quantity">';
+									content += '<select id= "wnw-gear-item-quantity-'+decoded_response[i]['post_id']+'">';
 										content += '<option value="">Quantity</option>';
 										content += '<option value="1">1</option>';
 										content += '<option value="2">2</option>';
@@ -57,7 +288,17 @@ jQuery( function($) {
 
 								content +='</p>';
 								content += '</div>';
-								content += '<a class="wnw-ad-to-cart" href="javascript:void(0);"><p class="gear-cart-button">Add to Cart</p></a>';
+								content += '<div class="wnw-product-wrapper">';
+									content += '<a class="wnw-ad-to-cart" id="wnw-gear-item-'+decoded_response[i]['post_id']+'" href="javascript:void(0);" data-id="'+decoded_response[i]['post_id']+'">';
+										content += '<p class="gear-cart-button">Add to Cart </p>';
+									content += '</a>';
+									content += '<div id="preloader-3-'+decoded_response[i]['post_id']+'">';
+										content += '<span></span>';
+									content += '</div>';
+									content += '<div class="wnw-ad-text-login-'+decoded_response[i]['post_id']+'">You Must Be Logged In. <a href="/wp-login.php/">Sign in</a>.</div>';
+									content += '<div class="wnw-ad-text-size-'+decoded_response[i]['post_id']+'">Choose A Size For The Item.</div>';
+									content += '<div class="wnw-ad-text-quantity-'+decoded_response[i]['post_id']+'">Choose A Quantity</div>';
+								content += '</div>';
 							content += '</div>';
 
 							content += '<div class="wnw-gear-product-image">';
@@ -73,5 +314,6 @@ jQuery( function($) {
 				console.log(error);
 			}
 		});
+
 	});
 });

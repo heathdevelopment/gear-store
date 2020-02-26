@@ -66,13 +66,89 @@
 	text-align: center;
 	margin-left: -22px;
 }
+.wnw-ad-text-login {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+div[class^="wnw-ad-text-login-"] {
+    display: none;
+    font-weight: 600;
+    margin-top: -2px;
+}
+
+div[class^="wnw-ad-text-size-"] {
+    display: none;
+    font-weight: 600;
+    margin-top: -2px;
+}
+
+div[class^="wnw-ad-text-quantity-"] {
+    display: none;
+    font-weight: 600;
+    margin-top: -2px;
+}
+
+select[id^="wnw-gear-item-sizes-"], select[id^="wnw-gear-item-quantity-"] {
+   width: 90px;
+}
+.wnw-product-wrapper {
+    position: relative;
+}
+
+div[id^="preloader-3"] {
+    display: none;
+    position: absolute;
+    animation: rotate 1s infinite linear;
+    border: 4px solid rgba(255, 255, 255, .25);
+    width: 25px;
+    height: 25px;
+    border-radius: 999px;
+    top: 7px;
+    left: 38%;
+}
+
+.wait {
+ padding-top: 20px !important;
+ padding-bottom: 20px !important;
+}
+
+div[id^="preloader-3"] span {
+    position:absolute;
+    width:25px;
+    height:25px;
+    border: 4px solid transparent;
+    border-top: 4px solid #fff;
+    top: -4px;
+    left: -4px;
+    border-radius:999px;
+}
+
+@keyframes rotate {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+
+.wnw-cart-count {
+    margin-left: 8px;
+    background-color: red;
+    border-radius: 100px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    display: none;
+}
+
 .gear-cart-button {
 	background-color: black;
     padding-left: 0px;
     padding-right: 0px;
     width: 269px;
-    padding-top: 10px;
+    padding-top: 11px;
     padding-bottom: 10px;
+    margin-bottom: 5px;
     text-align: center;
     font-weight: 900;
     color: #fbf5f5;

@@ -90,6 +90,29 @@ function manage_img_column($column_name, $post_id) {
  return $column_name;
 }
 
+//Function checks that the user is logged in, and has permission to add items to the cart
+function wp_ajax_check_valid_user_callback() {
+	$result = array(
+		'code' => '',
+		'id' => ''
+	);
+
+	$user = wp_get_current_user();
+	error_log('User Check');
+	error_log(print_r($user->roles, true));
+	if ( in_array( 'wnw_gear_store_member', (array) $user->roles ) ) {
+	   $result['code'] = "1";
+	   $result['id'] = $user->ID;
+	} else {
+	   $result['code'] = "2";
+	}
+    echo json_encode($result);
+	die();
+}
+
+add_action('wp_ajax_check_valid_user', 'wp_ajax_check_valid_user_callback');
+add_action('wp_ajax_nopriv_check_valid_user', 'wp_ajax_check_valid_user_callback');
+
 function fetch_store_items_callback() {
 
 	$results = array();
@@ -142,6 +165,156 @@ function fetch_store_items_callback() {
 }
 add_action('wp_ajax_nopriv_fetch_store_items', 'fetch_store_items_callback');
 add_action('wp_ajax_fetch_store_items', 'fetch_store_items_callback');
+
+// get the number of items in the cart
+function wnw_get_cart_count_callback() {
+	$result = array(
+		'cart_count' => ''
+	);
+
+
+
+	$current_cart_count = 0;
+	$cart = get_field('wnw_gear_store_items_in_cart', $_GET['cart_id']);
+	if (is_array($cart)) {
+	  $current_cart_count = count($cart);
+	  $result['cart_count'] = $current_cart_count;
+	}
+	
+
+	echo json_encode($result);
+	die();
+
+}
+add_action('wp_ajax_nopriv_wnw_get_cart_count','wnw_get_cart_count_callback');
+add_action('wp_ajax_wnw_get_cart_count','wnw_get_cart_count_callback');
+
+function wnw_add_product_callback() {
+
+	$result = array(
+		'code' => '',
+		'cart_id' => ''
+	);
+
+
+	$gear_member_id = $_POST['gear_member_id'];
+	$product_id = $_POST['product_id'];
+
+	if ( (!empty($gear_member_id)) && (!empty($product_id)) ) {
+
+		//find the users cart
+		$args = array (
+			'post_type' => 'wnw-gear-cart',
+			'post_status' => 'publish',
+			'posts_per_page' => 1,
+			'meta_query' => array(
+				'key' => 'wnw_customer_id_gear_store_member_id',
+				'value' => $gear_member_id,
+				'compare' => '='
+			)
+		);
+
+		$cart_query = new Wp_Query($args);
+		$cart_id = 0;
+		if($cart_query->have_posts()){
+			while($cart_query->have_posts()) {
+				$cart_query->the_post();
+
+				$cart_id = get_the_ID();
+			}
+		}
+
+		if(!($cart_id == 0)){
+			//cart id was successful updated
+
+			//get all the product details by query product
+			$price = get_field('wnw_gear_price', $product_id);
+			$points_value = get_field('wnw_gear_points_value', $product_id);
+
+			$quantity = $_POST['quantity'];
+			$size = $_POST['size'];
+			$product_title = get_the_title( $product_id );
+
+
+			$row = array(
+			    'product_title'                    => $product_title,
+			    'product_dollar_value'   		   => $price,
+			    'product_points_value'             => $points_value,
+			    'wnw_gear_cart_product_quantity'   => $quantity,
+			    'wnw_gear_cart_size'               => $size,
+			    'wnw_gear_cart_product_post_id'    => $product_id
+			);
+
+			//check current cart size
+			$current_cart_count = 0;
+			$cart = get_field('wnw_gear_store_items_in_cart', $cart_id);
+			if (is_array($cart)) {
+			  $current_cart_count = count($cart);
+			}
+			//(int|false) The new total row count on successful update, false on failure
+			$updated_count = add_row('wnw_gear_store_items_in_cart', $row, $cart_id);
+
+			if (is_int($updated_count)) {
+				if($current_cart_count < $updated_count) {
+					//item added successfully
+					$result['code'] = 1;
+					$result['cart_id'] = $cart_id;
+				} else {
+					//item added successfully but cart is less the before
+					$result['code'] = 4;
+				}
+			} else {
+					//failed to add a new row to cart
+					$result['code'] = 3;
+			}
+		}
+
+	} else {
+		$result['code'] = 2;
+	}
+
+	
+
+	echo json_encode($result);
+	die();
+
+	//add the product
+
+	//report result
+
+	
+}
+add_action('wp_ajax_nopriv_wnw_add_product', 'wnw_add_product_callback');
+add_action('wp_ajax_wnw_add_product', 'wnw_add_product_callback');
+
+
+add_action("deleted_user", "delete_with_user_callback", 10, 2);
+
+function delete_with_user_callback( $userId ) {
+
+	//using wordpresses user id on delete, find the gear shop member and remove the data
+	$args = array(
+		'post_type' => 'wnw-gear-member',
+		'meta_query' => array(
+				'key' => 'wnw_gear_member_wordpress_user_id',
+				'value' => $userId,
+				'compare' => '='
+				)
+		);
+
+	$delete_user_query = new WP_Query($args);
+
+	if($delete_user_query->have_posts()) {
+		while($delete_user_query->have_posts()) {
+			$delete_user_query->the_post();
+			//delete the Gear member
+			wp_delete_post(get_the_ID(), true);
+			
+		}
+	}
+
+}
+
 
 
 
