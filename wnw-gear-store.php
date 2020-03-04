@@ -47,9 +47,26 @@ function create_gear_member_cart_post_type() {
 	);
 
 	register_post_type('wnw-gear-cart', $args);
-
 }
 add_action('init', 'create_gear_member_cart_post_type');
+
+function create_order_post_type() {
+	$args = array(
+		'labels' => array(
+			'name' => 'Gear Orders',
+			'singular_name' => 'Gear Order'
+		),
+		'public' => true,
+		'has_archive' => false,
+		'supports' => array('title')
+	);
+
+	register_post_type('wnw-gear-orders', $args);
+
+}
+add_action('init', 'create_order_post_type');
+
+
 
 //add custom role for gear store
 function wnw_custom_role_gear_store() {
@@ -287,6 +304,37 @@ function wnw_add_product_callback() {
 add_action('wp_ajax_nopriv_wnw_add_product', 'wnw_add_product_callback');
 add_action('wp_ajax_wnw_add_product', 'wnw_add_product_callback');
 
+add_action('wp_ajax_nopriv_wnw_delete_cart_item', 'wnw_delete_cart_item_callback');
+add_action('wp_ajax_wnw_delete_cart_item', 'wnw_delete_cart_item_callback');
+
+function wnw_delete_cart_item_callback() {
+	$result = array();
+
+				if( !empty($_POST['cart_id'])) {
+					error_log('made it in cart id');
+					$cart_id = (int)($_POST['cart_id']);
+					error_log($cart_id);
+
+						error_log('made it item_number');
+						
+
+						$item_number = $_POST['item_number'];
+						$row = (int)$item_number;
+						error_log($row);
+
+						
+					
+						
+
+		$result['outcome'] = delete_row('wnw_gear_store_items_in_cart', (int)$row, 177643);
+					
+					
+				}
+	echo json_encode($result);
+	die();
+}
+
+
 
 add_action("deleted_user", "delete_with_user_callback", 10, 2);
 
@@ -308,7 +356,12 @@ function delete_with_user_callback( $userId ) {
 		while($delete_user_query->have_posts()) {
 			$delete_user_query->the_post();
 			//delete the Gear member
-			wp_delete_post(get_the_ID(), true);
+			$gear_member_id = get_the_ID();
+			$cart_id = get_field('wnw_gear_member_user_cart_id', $gear_member_id);
+			wp_delete_post($gear_member_id, true);
+			wp_delete_post($cart_id, true);
+
+
 			
 		}
 	}

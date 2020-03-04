@@ -13,6 +13,196 @@
 	padding-left: 0px !important;
 	padding-right: 0px !important;
 }
+.wnw-vault-image {
+    width: 25px;
+    margin-right: 10px;
+}
+.wnw-cart-list {
+    padding-left: 50px !important;
+    max-height: 800px;
+    overflow: auto;
+    -webkit-scrollbar-color: #359845 #246699;
+
+}
+.cart-total-wrapper {
+    margin-bottom: 50px;
+    padding-top: 25px;
+}
+.wnw-cart-list::-webkit-scrollbar {
+    background-color: #efefef;
+    width: 4px;
+
+}
+.wnw-cart-list::-webkit-scrollbar-thumb {
+    background-color: #246699;
+
+}
+.wnw-cart-tweak-margin {
+    margin-bottom: 20px;
+}
+.wnw-gear-cart-price-details {
+    font-size: 22px;
+}
+.wnw-payment-holder {
+    display: flex;
+}
+.wnw-gear-cc-btn {
+    border: 3px solid #359845;
+    border-radius: 5px;
+    margin-right: 15px;
+    padding: 25px;
+    color: white;
+    font-size: 2rem;
+    background-color: #246699;
+}
+.wnw-gear-points-btn {
+    border: 3px solid #246699;
+    border-radius: 5px;
+    margin-right: 15px;
+    padding: 25px;
+    color: white;
+    font-size: 2rem;
+    background-color: #359845;
+}
+.wnw-gear-login-wrapper {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.wnw-gear-login-img-wrapper {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+.wnw-gear-user-name-input {
+        width: 190px;
+    margin-left: 0px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 4px;
+}
+.wnw-gear-submit {
+    padding: 15px;
+    background-color: #4c4d4f !important;
+    margin-bottom: 32px;
+    color: white !important;
+
+}
+
+.wnw-gear-pwd-input {
+    margin-left: 7px;
+    width: 187px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 4px;
+}
+.wnw-credit-month-input {
+    max-width: 24px !important;
+    margin-right: 5px;
+}
+.wnw-credit-year-input {
+    max-width: 48px !important;
+    margin-right: 5px;
+}
+.wnw-cart-button {
+    padding: 25px;
+    color: white !important;
+    font-weight: 500 !important;
+}
+.arrow-up-credit {
+  width: 0; 
+  height: 0; 
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid black;
+  position: absolute;
+  top: -14px;
+  left: 57px;
+  display: none;
+}
+.show-credit-form {
+    display: none !important;
+}
+.wnw-payment-forms {
+    display: none;
+}
+.wnw-credit-exp-text {
+    font-size: 1.2rem;
+    margin-bottom: 0px !important;
+}
+.wnw-security-text {
+    font-size: 1rem;
+}
+.wnw-payment-form-credit {
+    display: none;
+}
+.wnw-security-lock {
+    color: darkgoldenrod;
+    margin-right: 5px;
+}
+.wnw-credit-wnw-security-code {
+    max-width: 48px !important;
+}
+.wnw-payment-forms-wrapper {
+    position: relative;
+}
+.wnw-credit-number-input {
+    margin-left: 18px;
+}
+.wnw-payment-forms {
+    margin-top: 16px;
+    padding: 35px;
+    border: 1px solid #e2e1e1;
+    margin-right: 13px;
+}
+
+
+.payment-option-title {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.wnw-accepted-payments {
+    margin-right: 5px;
+}
+.wnw-horiztonal-div {
+    text-align: center;
+}
+.wnw-black-divider {
+    width: 200px;
+    height: 1px;
+    background-color: #d6d6d6;
+}
+
+.wnw-gear-cc-btn a {
+    color: white;
+}
+
+.wnw-gear-cc-btn a:hover{
+    color: lightgreen;
+}
+
+.wnw-top-row-cart {
+    border-bottom: 2px solid #add0b8;
+    margin-bottom: 20px;
+}
+.wnw-vault-wrapper {
+    background-color: aliceblue;
+    display: flex;
+    width: 100px;
+}
+#gear-points-vault-total p{
+    margin-bottom: 0px;
+    font-family: alarm;
+    font-size: 2rem;
+    color: green;
+    font-weight: 500;
+}
+.wnw-gear-points-vault {
+    float: right;
+    margin-right: 40%;
+}
 
 .wnw-gear-actions {
 	padding-left: 0px !important;
@@ -129,7 +319,18 @@ div[id^="preloader-3"] span {
     100% {transform: rotate(360deg);}
 }
 
-
+.wnw-cart-product-title {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+.wnw-cart-details {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+.wnw-cart-details-att {
+    font-size: 1.2rem;
+}
 .wnw-cart-count {
     margin-left: 8px;
     background-color: red;
@@ -139,6 +340,20 @@ div[id^="preloader-3"] span {
     padding-left: 8px;
     padding-right: 8px;
     display: none;
+}
+.wnw-not-logged-in-user-cart {
+    text-align: center;
+    font-size: 2rem;
+    padding: 200px;
+}
+.wnw-cart-product-title {
+    font-weight: 600;
+}
+.wnw-cart-product-details {
+    min-height: 180px;
+}
+.wnw-cart-product-image {
+    margin-bottom: 10px;
 }
 
 .gear-cart-button {
@@ -189,11 +404,24 @@ div[id^="preloader-3"] span {
 	margin-top: 40px;
 	margin-bottom: 40px;
 }
+.wnw-gear-cart-user {
+    margin-left: 10%;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
 .grid-container-store {
   display: grid;
   grid-template-columns: auto auto;
   grid-gap: 40px 40px;
 
+}
+.grid-container-cart {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+    padding: 10px;
 }
 
 .grid-item {
@@ -201,6 +429,14 @@ div[id^="preloader-3"] span {
   padding: 20px;
   font-size: 30px;
   text-align: center;
+}
+
+.grid-item-cart {
+    border: 1px solid rgba(183, 183, 183, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 3px;
 }
 
 .create-account-button {
@@ -220,4 +456,38 @@ div[id^="preloader-3"] span {
 	text-align: center;
     font-size: 1.5rem;
     margin-top: 8px;
+}
+
+@media all and (max-width: 991px) {
+    .wnw-gear-logo {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .wnw-gear-logo img {
+        width: 200px;
+        margin-left: auto;
+    }
+    .wnw-gear-text {
+        text-align: center;
+    }
+    .wnw-gear-text {
+        margin-top: 35px;
+        margin-bottom: 39px;
+    }
+    .wnw-gear-text img {
+        width: 200px;
+    }
+    .wnw-gear-actions {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .wnw-gear-link {
+        padding-top: 2px;
+    }
+    .grid-container-store {
+        grid-template-columns: auto;
+    }
+    .wnw-gear-store-item-holder {
+        max-width: 500px;
+    }
 }

@@ -156,6 +156,98 @@ jQuery( function($) {
 
 		});
 
+
+		$('#wnw-credit-button').toggle(function(){
+			//first click
+			$( ".wnw-payment-forms" ).show('slow');
+    		$('.wnw-payment-form-credit').show('slow');
+			$('.arrow-up-credit').show('slow');
+		}, function() {
+			$( ".wnw-payment-forms" ).hide('slow');
+    		$('.wnw-payment-form-credit').hide('slow');
+			$('.arrow-up-credit').hide();
+
+		});
+
+		$(document).on('click', '#wnw-cart-delete-item', function() {
+			console.log('click');
+			var item_number = $(this).data('item-id');
+			var cart_id = $(this).data('cart-id');
+
+			var del_item_data = {
+				action: 'wnw_delete_cart_item',
+				cart_id: cart_id,
+				item_number: item_number
+			}
+
+			$.ajax({
+				data: del_item_data,
+				url: ajax_url,
+				type: 'post',
+				success: function( response ) {
+					var decoded_response = JSON.parse(response);
+					console.log(decoded_response);
+					window.location.reload();
+				}, failure: function( error ) {
+					console.log( error );
+				}
+			});
+			console.log(cart_id);
+			console.log(item_number);
+		});
+
+		$(document).one('click', '[id^=wnw-cart-quantity-]', function() {
+
+			var original_text = $(this).text();
+			console.log(original_text);
+			var input_text = '<select id="wnw-quantity-select">';
+
+			for(var i = 0; i < 21; i++) {
+
+				if( parseInt(original_text) == i ) {
+					//same value as clicked make selected
+					input_text += '<option selected value="' + i +'">'+i+'</option>';
+				} else {
+					input_text += '<option value="' + i +'">'+i+'</option>';
+				}
+				
+			}
+			input_text += '</select>';
+			$(this).empty();
+			$(this).append(input_text);
+
+		
+
+
+		});
+			$(document).one('blur', '#wnw-quantity-select', function() {
+				//console.log
+				console.log($("#wnw-quantity-select option:selected" ).text());
+
+				var qty_to_update = $("#wnw-quantity-select option:selected" ).text();
+				console.log(qty_to_update);
+				$(this).parent().empty().append('<p>'+qty_to_update+'</p>');
+				
+			});
+		
+
+
+
+
+		function myFunction() {
+
+		  var x = document.getElementById("myDIV");
+		  if (x.style.display === "none") {
+		    x.style.display = "block";
+		  } else {
+		    x.style.display = "none";
+		  }
+	   }
+
+		
+
+
+
 		//add product to cart
 		function wnw_add_product_to_cart( data_id, global_user_id, quantity, size ) {
 
@@ -229,11 +321,6 @@ jQuery( function($) {
 		
 		}
 	
-
-
-
-
-
 		console.log('made it in');
 
 		var data = {
